@@ -102,7 +102,7 @@ a lot of fixes used are from https://github.com/brickmen/slitrani-fixed
 		make
 		make install
 	do the same for SplineFit, PhysMore, SLitrani and VisuSLitrani (IMPORTANT:in that order)
-	3.4 Copy SpectraDB.rdb and SplineFitDB.rdb to your work folder (if you want to use SLitrani, have them in the folder from where you start ROOT)
+	3.4 Copy SpectraDB.rdb and SplineFitDB.rdb (found in rootdev or rootdev/bin) to your work folder (if you want to use SLitrani, have them in the folder from where you start ROOT)
 
 	
 4. Enjoy.
