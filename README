@@ -1,0 +1,123 @@
+Compliments to various strangers on  the internet, without whom this probably wouldn't work.
+I have no claim on this software, just showing one way you can make it work. Some fixes were made to the original files (SLitrani...) in order to make it work.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Original files and citations:
+
+ROOT 5.34.36 :
+files on https://root.cern.ch/content/release-53436 
+SLitrani:
+original files on https://crystalclear.web.cern.ch/crystalclear/SLitraniX/SLitrani/index.html 
+SLitrani was written by François-Xavier Gentit
+
+a lot of fixes used are from https://github.com/brickmen/slitrani-fixed 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+->verified to work on Ubuntu 18.10 and 17.10 (and LUbuntu 18.04)
+->installation of root 5.34.36 (if you already have this version or don't want it, skip parts 1 and 2)
+->if your gcc and/or g++ is 4.9 or older skip part 1. 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+1. Install gcc-4.9 and g++-4.9:
+	1.1 Download files (copy these lines to terminal)
+		mkdir ~/Downloads/gcc-4.9-deb && cd ~/Downloads/gcc-4.9-deb
+		wget http://launchpadlibrarian.net/247707088/libmpfr4_3.1.4-1_amd64.deb
+		wget http://launchpadlibrarian.net/253728424/libasan1_4.9.3-13ubuntu2_amd64.deb
+		wget http://launchpadlibrarian.net/253728426/libgcc-4.9-dev_4.9.3-13ubuntu2_amd64.deb
+		wget http://launchpadlibrarian.net/253728314/gcc-4.9-base_4.9.3-13ubuntu2_amd64.deb
+		wget http://launchpadlibrarian.net/253728399/cpp-4.9_4.9.3-13ubuntu2_amd64.deb
+		wget http://launchpadlibrarian.net/253728404/gcc-4.9_4.9.3-13ubuntu2_amd64.deb
+		wget http://launchpadlibrarian.net/253728432/libstdc++-4.9-dev_4.9.3-13ubuntu2_amd64.deb
+		wget http://launchpadlibrarian.net/253728401/g++-4.9_4.9.3-13ubuntu2_amd64.deb
+
+		sudo dpkg -i gcc-4.9-base_4.9.3-13ubuntu2_amd64.deb
+		sudo dpkg -i libmpfr4_3.1.4-1_amd64.deb
+		sudo dpkg -i libasan1_4.9.3-13ubuntu2_amd64.deb
+		sudo dpkg -i libgcc-4.9-dev_4.9.3-13ubuntu2_amd64.deb
+		sudo dpkg -i cpp-4.9_4.9.3-13ubuntu2_amd64.deb
+		sudo dpkg -i gcc-4.9_4.9.3-13ubuntu2_amd64.deb
+		sudo dpkg -i libstdc++-4.9-dev_4.9.3-13ubuntu2_amd64.deb
+		sudo dpkg -i g++-4.9_4.9.3-13ubuntu2_amd64.deb
+	1.2 set gcc/g++ 4.9; replace number 7 (mine was 7.2, thus gcc-7)  with whatever version of g++/gcc you have)
+
+		sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 60
+		sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 40
+		sudo update-alternatives --config g++ 
+		(....choose 4.9...)
+		
+		sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60
+		sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 40
+		sudo update-alternatives --config gcc 
+		(....choose 4.9, same as before...)
+
+2. Install ROOT 5.34.36:
+	2.1 Install prerequisites (https://root.cern.ch/build-prerequisites)
+		sudo apt-get install git dpkg-dev cmake g++ gcc binutils libx11-dev libxpm-dev \
+		libxft-dev libxext-dev
+	2.2 Optional prerequisites (for SLitrani you need MathMore from ROOT, which needs libgsl0-dev, so you need at least that)
+		sudo apt-get install gfortran libssl-dev libpcre3-dev \
+		xlibmesa-glu-dev libglew1.5-dev libftgl-dev \
+		libmysqlclient-dev libfftw3-dev libcfitsio-dev \
+		graphviz-dev libavahi-compat-libdnssd-dev \
+		libldap2-dev python-dev libxml2-dev libkrb5-dev \
+		libgsl0-dev libqt4-dev
+	2.3 Get ROOT 5.34.36
+	go to https://root.cern.ch/content/release-53436 and download source files and extract using
+		tar -zxf root_v5.34.36.source.tar.gz
+	copy the source to ROOT5_SLitrani and rename the copied file ("root") to "root5_source", you can choose a different folder and/or name but then change the paths accordingly
+	2.4 Build ROOT
+		mkdir root5
+		cd root5
+		cmake $HOME/ROOT5_SLitrani/root5_source
+	instead of N at -jN type number of cores you want to use to speed-up the process, if unsure type without "-- -jN", but it will be slow
+		sudo cmake --build . --target install -- -jN  
+	2.5 Set up root5 (do 2.4.1 or 2.4.2, depends on your preferences)
+		2.4.1 if you have several versions of ROOT on your PC:
+		copy the line bellow, to ~/.bashrc
+			alias root5=". $HOME/ROOT5_SLitrani/root5/bin/thisroot.sh"
+		close and reopen terminal, before starting root type "root5" to your terminal, check if it works with "which root",if it shows a path to your root5 dir  (something like .../root5/bin/root/)
+		2.5.2 if this is the only version of ROOT, than you can simply:
+		copy the line bellow, to ~/.bashrc			
+			source $HOME/root5/bin/thisroot.sh
+
+
+3. Install SLitrani:
+	3.1 Add to ~/.bashrc or type to terminal:
+		export ROOTDEV=$HOME/ROOT5_SLitrani/rootdev
+		export PATH=$PATH:$ROOTDEV/bin
+		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTDEV/lib
+		export PATH="$PATH:$HOME/ROOT5_SLitrani/rootdev/bin"
+		export LD_LIBRARY_PATH="$PATH:$HOME/ROOT5_SLitrani/rootdev/lib"
+	check paths with: 
+		echo $PATH
+
+	3.2 Go to ~/root5/etc/system.rootrch and change the line with "Unix.*.Root.MacroPath:" to:
+		Unix.*.Root.MacroPath:      .:$(ROOTSYS)/macros:$(ROOTDEV)/macros:
+	3.3 Go to ~/ROOT5_SLitrani/SLitrani:
+		cd TwoPad
+		make clean
+		make
+		make install
+	do the same for SplineFit, PhysMore, SLitrani and VisuSLitrani (IMPORTANT:in that order)
+	3.4 Copy SpectraDB.rdb and SplineFitDB.rdb to your work folder (if you want to use SLitrani, have them in the folder from where you start ROOT)
+
+	
+4. Enjoy.
+
+///////////////////////////////////////////////////////////////
+
+ROOT-related issues: (someone probably had the same problem) check https://root-forum.cern.ch
+SLitrani-related issues: good luck and may the internet gods help you (on't give up, it took me weeks to get it working)
+
+//////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
