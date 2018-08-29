@@ -26,8 +26,8 @@ std::cout << nsims << std::endl;
 
 int ndetektorji[nsims];
 int seen[nsims];
-int num[nsims], avg;
-double eff[nsims];
+int num[nsims];
+double eff[nsims], avg;
 int najbolseen[33]={0};
 double najboleff[33]={0};
 int najbolNdet[33]={0};
@@ -40,8 +40,8 @@ FILE *g2= fopen("datafile-14-41_22-08-2018.dat","rt");
 int i=0;
 while (fgets(line, sizeof line, g2)) {
 	
-	sscanf(line, "%d	%d	%d	%d	%lf",&num[i], &seen[i], &ndetektorji[i], &avg, &eff[i] );
-	printf("%d	%d	%d	%d	%f\n", num[i], seen[i],ndetektorji[i],  avg, eff[i] );
+	sscanf(line, "%d	%d	%d	%lf	%lf",&num[i], &seen[i], &ndetektorji[i], &avg, &eff[i] );
+	printf("%d	%d	%d	%f	%f\n", num[i], seen[i],ndetektorji[i],  avg, eff[i] );
 	i++;
 	}
 
@@ -65,7 +65,13 @@ for(int z=1; z<=32;++z) {
 	datafile1 << z << "\t"  << najbolNdet[z]<< "\t" << najboleff[z] <<"\t"<< najbolseen[z]<< std::endl;
 	}
 
+datafile2.open ("datafile_7det_all_stats.dat");
+datafile2 << "#vrstica\t" << "st.detektorjev\t"<< "ucinkovitost\t"<< "ucinkovitost/st.detektorjev"<< std::endl;
+for(int a=0; a<=nsims; ++a) {	
+	datafile2 << a << "\t"  << ndetektorji[a]<< "\t" << eff[a] <<"\t"<< eff[a] / (double) ndetektorji[a] << std::endl;
+	std::cout << a << "\t"  << ndetektorji[a]<< "\t" << eff[a] <<"\t"<< eff[a] / (double) ndetektorji[a] << std::endl;
 
+	}
 
 
 
