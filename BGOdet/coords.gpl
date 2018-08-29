@@ -1,0 +1,12 @@
+reset
+cd "/home/gkosir/BGO"
+set terminal png size 1000,1000 font ",20"
+set xlabel "X [cm]"
+set ylabel "Y [cm]"
+set xrange [-3:4]
+set yrange [-3.0:4]
+#set offset 1,1,1,1
+set title "Razporeditev SiPM detektorjev"
+set output "coords.png"
+plot  for [i=1:32] "coords.dat" every ::(i-1)::(i-1) u 2:3:(sprintf("(%d)", i)) w labels point pt 7 ps 2 offset char 1,1 notitle
+
