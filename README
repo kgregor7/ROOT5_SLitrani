@@ -95,6 +95,7 @@ a lot of fixes used are from https://github.com/brickmen/slitrani-fixed
 		export LD_LIBRARY_PATH="$PATH:$HOME/ROOT5_SLitrani/rootdev/lib"
 	check paths with: 
 		echo $PATH
+		echo $LD_LIBRARY_PATH
 
 	3.2 Go to ~/root5/etc/system.rootrch and change the line with "Unix.*.Root.MacroPath:" to:
 		Unix.*.Root.MacroPath:      .:$(ROOTSYS)/macros:$(ROOTDEV)/macros:
