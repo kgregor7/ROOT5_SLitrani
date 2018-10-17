@@ -17,7 +17,7 @@ a lot of fixes used are from https://github.com/brickmen/slitrani-fixed
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-->verified to work on Ubuntu 18.10 and 17.10 (and LUbuntu 18.04)
+->verified to work on Ubuntu 18.04 and 17.10 (and LUbuntu 18.04)
 ->installation of root 5.34.36 (if you already have this version or don't want it, skip parts 1 and 2)
 ->if your gcc and/or g++ is 4.9 or older skip part 1. 
 
